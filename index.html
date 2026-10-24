@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa da Pizza - Cardápio Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        .pulse-status {
+            animation: pulse-fast 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 pb-28">
+
+    <!-- Cabeçalho da Loja -->
+    <header class="bg-red-600 text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-md mx-auto p-4">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-xl font-bold flex items-center gap-1.5">🍕 Casa da Pizza</h1>
+                    <p class="text-xs text-red-100 italic">Tradição e Sabor na sua mesa</p>
+                </div>
+                <!-- Status Aberto/Fechado (Controlado pelo Admin) -->
+                <div id="store-status" class="bg-green-700 text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-white pulse-status inline-block"></span>
+                    ABERTO AGORA
+                </div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-red-500/50 text-xs text-red-100 space-y-1">
+                <p>📍 Rua São José dos Cordeiros, 418 - Vila Císper</p>
+                <p>📞 (11) 5197-7430 | 🛵 Entrega rápida & Retirada</p>
+            </div>
+        </div>
+
+        <!-- Barra de Busca -->
+        <div class="bg-red-700 p-3">
+            <div class="max-w-md mx-auto">
+                <input type="text" id="search-input" onkeyup="filterMenu()" placeholder="🔍 O que você quer pedir hoje? (Ex: Mussarela, Água...)" class="w-full bg-white text-gray-800 text-xs rounded-xl px-3.5 py-2.5 outline-none shadow-inner placeholder-gray-400">
+            </div>
+        </div>
+    </header>
+
+    <!-- Filtros de Categorias -->
+    <nav class="bg-white shadow-sm border-b sticky top-[148px] z-30">
+        <div class="max-w-md mx-auto px-4 py-2.5 flex gap-2 overflow-x-auto no-scrollbar">
+            <button onclick="filterCategory('all')" class="cat-btn bg-red-600 text-white text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap shadow-sm">Todas</button>
+            <button onclick="filterCategory('salgada')" class="cat-btn bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-200">🍕 Salgadas</button>
+            <button onclick="filterCategory('doce')" class="cat-btn bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-200">🍫 Doces</button>
+            <button onclick="filterCategory('calzone')" class="cat-btn bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-200">🥟 Calzones</button>
+            <button onclick="filterCategory('bebida')" class="cat-btn bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-200">🥤 Bebidas</button>
+        </div>
+    </nav>
+
+    <!-- Lista de Produtos -->
+    <main class="max-w-md mx-auto p-4 space-y-3" id="product-list">
+
+        <!-- Item 1: Salgada -->
+        <div class="product-card bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex gap-3 items-center" data-category="salgada" data-name="01 à moda da casa">
+            <div class="flex-1">
+                <span class="text-[10px] bg-red-50 text-red-600 font-bold px-2 py-0.5 rounded-md">Destaque</span>
+                <h3 class="font-bold text-sm text-gray-900 mt-1">01. À Moda da Casa</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Mussarela, palmito, calabresa e bacon.</p>
+                <p class="text-xs font-bold text-gray-700 mt-2">G: R$ 30,00 | B: R$ 20,00</p>
+            </div>
+            <button onclick="addItem('À Moda da Casa', 30, 20)" class="bg-red-50 text-red-600 font-bold text-xs px-3.5 py-2 rounded-xl border border-red-200 active:scale-95 transition-transform">
+                + Adicionar
+            </button>
+        </div>
+
+        <!-- Item 2: Salgada -->
+        <div class="product-card bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex gap-3 items-center" data-category="salgada" data-name="17 brócolis">
+            <div class="flex-1">
+                <h3 class="font-bold text-sm text-gray-900">17. Brócolis</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Brócolis coberto c/ mussarela ou catupiry e bacon.</p>
+                <p class="text-xs font-bold text-gray-700 mt-2">G: R$ 23,00 | B: R$ 16,00</p>
+            </div>
+            <button onclick="addItem('Brócolis', 23, 16)" class="bg-red-50 text-red-600 font-bold text-xs px-3.5 py-2 rounded-xl border border-red-200 active:scale-95 transition-transform">
+                + Adicionar
+            </button>
+        </div>
+
+        <!-- Item 3: Salgada -->
+        <div class="product-card bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex gap-3 items-center" data-category="salgada" data-name="42 mussarela">
+            <div class="flex-1">
+                <h3 class="font-bold text-sm text-gray-900">42. Mussarela</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Mussarela, molho de tomate, orégano e azeitona.</p>
+                <p class="text-xs font-bold text-gray-700 mt-2">G: R$ 23,00 | B: R$ 16,00</p>
+            </div>
+            <button onclick="addItem('Mussarela', 23, 16)" class="bg-red-50 text-red-600 font-bold text-xs px-3.5 py-2 rounded-xl border border-red-200 active:scale-95 transition-transform">
+                + Adicionar
+            </button>
+        </div>
+
+        <!-- Item 4: Doce -->
+        <div class="product-card bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex gap-3 items-center" data-category="doce" data-name="68 chocolate">
+            <div class="flex-1">
+                <span class="text-[10px] bg-amber-50 text-amber-600 font-bold px-2 py-0.5 rounded-md">Sobremesa</span>
+                <h3 class="font-bold text-sm text-gray-900 mt-1">68. Chocolate</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Creme de leite, chocolate, leite condensado e cereja.</p>
+                <p class="text-xs font-bold text-gray-700 mt-2">G: R$ 26,00 | B: R$ 19,00</p>
+            </div>
+            <button onclick="addItem('Chocolate (Doce)', 26, 19)" class="bg-red-50 text-red-600 font-bold text-xs px-3.5 py-2 rounded-xl border border-red-200 active:scale-95 transition-transform">
+                + Adicionar
+            </button>
+        </div>
+
+        <!-- Item 5: Calzone -->
+        <div class="product-card bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex gap-3 items-center" data-category="calzone" data-name="calzone pizza fechada">
+            <div class="flex-1">
+                <span class="text-[10px] bg-purple-50 text-purple-600 font-bold px-2 py-0.5 rounded-md">Especialidade</span>
+                <h3 class="font-bold text-sm text-gray-900 mt-1">Pizza Fechada (Calzone)</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Escolha qualquer sabor salgado tradicional em formato fechado.</p>
+                <p class="text-xs font-bold text-gray-700 mt-2">Preço Único: R$ 32,00</p>
+            </div>
+            <button onclick="addSingleItem('Calzone', 32)" class="bg-red-50 text-red-600 font-bold text-xs px-3.5 py-2 rounded-xl border border-red-200 active:scale-95 transition-transform">
+                + Adicionar
+            </button>
+        </div>
+
+        <!-- Item 6: Bebida (Exemplo da Água que você citou!) -->
+        <div class="product-card bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex gap-3 items-center" data-category="bebida" data-name="agua mineral 500ml">
+            <div class="flex-1">
+                <span class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2 py-0.5 rounded-md">Bebida</span>
+                <h3 class="font-bold text-sm text-gray-900 mt-1">Água Mineral 500ml</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Com ou sem gás.</p>
+                <p class="text-xs font-bold text-gray-700 mt-2">R$ 5,00</p>
+            </div>
+            <button onclick="addSingleItem('Água Mineral 500ml', 5)" class="bg-red-50 text-red-600 font-bold text-xs px-3.5 py-2 rounded-xl border border-red-200 active:scale-95 transition-transform">
+                + Adicionar
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Barra Inferior do Carrinho -->
+    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t p-4 shadow-2xl hidden z-50">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div>
+                <p class="text-[10px] uppercase font-bold text-gray-400">Total do Pedido</p>
+                <p id="cart-total-val" class="font-extrabold text-base text-gray-900">R$ 0,00</p>
+            </div>
+            <button onclick="openCheckout()" class="bg-green-600 text-white font-bold px-6 py-3 rounded-xl text-xs shadow-lg hover:bg-green-700 flex items-center gap-2">
+                Ver Carrinho (<span id="cart-count">0</span>) 🛒
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Finalização -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end sm:items-center justify-center backdrop-blur-sm">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-5 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b">
+                <h3 class="font-bold text-base text-gray-800">Finalizar Pedido 📱</h3>
+                <button onclick="closeCheckout()" class="text-gray-400 font-bold text-xl hover:text-gray-600">&times;</button>
+            </div>
+
+            <div id="cart-items-list" class="bg-gray-50 p-3 rounded-xl mb-4 text-xs space-y-2 border">
+                <!-- Preenchido via JS -->
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-600 mb-1">Seu Nome *</label>
+                    <input type="text" id="client-name" placeholder="Ex: Rodrigo Jacoud" class="w-full border rounded-xl p-2.5 text-xs focus:ring-2 focus:ring-red-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-600 mb-1">Tipo de Atendimento</label>
+                    <select id="order-type" class="w-full border rounded-xl p-2.5 text-xs bg-white font-medium">
+                        <option value="Entrega">🛵 Entrega em Domicílio</option>
+                        <option value="Retirada">🏃 Retirada no Balcão</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-600 mb-1">Endereço de Entrega *</label>
+                    <textarea id="client-address" rows="2" placeholder="Rua, Número, Bairro e Complemento" class="w-full border rounded-xl p-2.5 text-xs focus:ring-2 focus:ring-red-500 outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-600 mb-1">Forma de Pagamento</label>
+                    <select id="payment-method" class="w-full border rounded-xl p-2.5 text-xs bg-white font-medium">
+                        <option value="Pix">Pix</option>
+                        <option value="Cartão de Crédito/Débito">Cartão (Maquininha na Entrega)</option>
+                        <option value="Dinheiro">Dinheiro (Informar Troco nas Obs)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-600 mb-1">Observações (opcional)</label>
+                    <input type="text" id="client-obs" placeholder="Ex: Sem cebola, troco para R$ 50..." class="w-full border rounded-xl p-2.5 text-xs focus:ring-2 focus:ring-red-500 outline-none">
+                </div>
+
+                <button onclick="sendToWhatsApp()" class="w-full bg-green-600 text-white font-bold py-3.5 rounded-xl text-xs shadow-lg hover:bg-green-700 mt-2 flex items-center justify-center gap-2">
+                    Enviar Pedido pelo WhatsApp 📲
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Interatividade -->
+    <script>
+        let cart = [];
+
+        function addItem(name, priceG, priceB) {
+            let tamanho = prompt(`Escolha o tamanho para ${name}:\n1 - Grande (R$ ${priceG.toFixed(2)})\n2 - Broto (R$ ${priceB.toFixed(2)})`, "1");
+            if (tamanho === null) return;
+            let sizeName = tamanho === "2" ? "Broto" : "Grande";
+            let price = tamanho === "2" ? priceB : priceG;
+            cart.push({ name, size: sizeName, price });
+            updateCartUI();
+        }
+
+        function addSingleItem(name, price) {
+            cart.push({ name, size: 'Único', price });
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartBar = document.getElementById('cart-bar');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotalVal = document.getElementById('cart-total-val');
+
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+
+            if (cart.length > 0) {
+                cartBar.classList.remove('hidden');
+                cartCount.innerText = cart.length;
+                cartTotalVal.innerText = `R$ ${total.toFixed(2)}`;
+            } else {
+                cartBar.classList.add('hidden');
+            }
+        }
+
+        function openCheckout() {
+            const modal = document.getElementById('checkout-modal');
+            const listContainer = document.getElementById('cart-items-list');
+            
+            let html = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `<div class="flex justify-between items-center border-b pb-1"><span><b>${index + 1}.</b> ${item.name} (${item.size})</span> <span class="font-bold text-gray-900">R$ ${item.price.toFixed(2)}</span></div>`;
+            });
+            html += `<div class="flex justify-between pt-1 font-extrabold text-gray-900 text-sm"><span>Total Produtos:</span> <span class="text-red-600">R$ ${total.toFixed(2)}</span></div>`;
+            
+            listContainer.innerHTML = html;
+            modal.classList.remove('hidden');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function filterCategory(category) {
+            // Estilo dos botões
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-red-600', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-gray-100', 'text-gray-600');
+            });
+            event.target.classList.remove('bg-gray-100', 'text-gray-600');
+            event.target.classList.add('bg-red-600', 'text-white', 'shadow-sm');
+
+            // Filtrar produtos
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function filterMenu() {
+            let query = document.getElementById('search-input').value.toLowerCase();
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                let name = card.getAttribute('data-name');
+                if (name.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function sendToWhatsApp() {
+            const name = document.getElementById('client-name').value.trim();
+            const address = document.getElementById('client-address').value.trim();
+            const orderType = document.getElementById('order-type').value;
+            const payment = document.getElementById('payment-method').value;
+            const obs = document.getElementById('client-obs').value.trim();
+
+            if (!name) {
+                alert('Por favor, digite seu nome.');
+                return;
+            }
+            if (orderType === 'Entrega' && !address) {
+                alert('Por favor, informe o endereço de entrega.');
+                return;
+            }
+
+            let message = `*🍕 NOVO PEDIDO - CASA DA PIZZA*\n\n`;
+            message += `👤 *Cliente:* ${name}\n`;
+            message += `📦 *Tipo:* ${orderType}\n`;
+            if (orderType === 'Entrega') {
+                message += `📍 *Endereço:* ${address}\n`;
+            }
+            message += `💳 *Pagamento:* ${payment}\n`;
+            if (obs) {
+                message += `📝 *Obs:* ${obs}\n`;
+            }
+            message += `\n*-- ITENS DO PEDIDO --*\n`;
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                message += `${index + 1}. ${item.name} (${item.size}) - R$ ${item.price.toFixed(2)}\n`;
+            });
+
+            message += `\n💰 *Total: R$ ${total.toFixed(2)}*\n*(Taxa de entrega a calcular)*`;
+
+            // Número do WhatsApp da Loja
+            const phoneStore = "551151977430"; 
+            const encodedMessage = encodeURIComponent(message);
+            
+            window.open(`https://wa.me/${phoneStore}?text=${encodedMessage}`, '_blank');
+        }
+    </script>
+</body>
+</html>
