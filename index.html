@@ -4,175 +4,188 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Casa da Pizza - Cardápio Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    @keyframes pulse-fast {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
-    body {
-      background-color: #f4f6f8;
-      color: #333;
-      padding-bottom: 80px;
-    }
-    header {
-      background-color: #d32f2f;
-      color: white;
-      text-align: center;
-      padding: 20px 15px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    header h1 {
-      font-size: 1.5rem;
-      margin-bottom: 5px;
-    }
-    header p {
-      font-size: 0.9rem;
-      opacity: 0.9;
-    }
-    .badge-open {
-      display: inline-block;
-      background-color: #2e7d32;
-      color: white;
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 12px;
-      margin-top: 8px;
-      font-weight: bold;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 15px;
-    }
-    .categories {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-      margin-bottom: 15px;
-    }
-    .category-btn {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: bold;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-    .category-btn.active {
-      background-color: #d32f2f;
-      color: white;
-      border-color: #d32f2f;
-    }
-    .card {
-      background: white;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      position: relative;
-    }
-    .promo-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #ff9800;
-      color: white;
-      font-size: 0.7rem;
-      font-weight: bold;
-      padding: 3px 8px;
-      border-radius: 5px;
-      text-transform: uppercase;
-    }
-    .card h3 {
-      font-size: 1.1rem;
-      color: #d32f2f;
-      margin-bottom: 5px;
-    }
-    .card p {
-      font-size: 0.85rem;
-      color: #666;
-      margin-bottom: 10px;
-    }
-    .price-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .price-old {
-      text-decoration: line-through;
-      color: #888;
-      font-size: 0.9rem;
-    }
-    .price-current {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #2e7d32;
-    }
-    .btn-add {
-      background-color: #2e7d32;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
+    .pulse-status {
+      animation: pulse-fast 1.5s infinite;
     }
   </style>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen text-gray-800 pb-24">
 
-  <header>
-    <h1>🍕 Casa da Pizza</h1>
-    <p>Tradição e Sabor na sua mesa</p>
-    <span class="badge-open">● ABERTO AGORA</span>
+  <!-- CABEÇALHO -->
+  <header class="bg-red-700 text-white p-4 shadow-md text-center relative">
+    <div class="max-w-md mx-auto">
+      <div class="flex items-center justify-center gap-2 mb-1">
+        <span class="text-2xl">🍕</span>
+        <h1 class="text-2xl font-bold">Casa da Pizza</h1>
+      </div>
+      <p class="text-xs text-red-100 mb-2">Tradição e Sabor na sua mesa</p>
+      
+      <!-- BADGE ABERTO AGORA COM BRILHO/PULSO -->
+      <div class="inline-flex items-center gap-1.5 bg-green-700 text-white text-xs px-2.5 py-1 rounded-full font-semibold shadow-inner mb-3">
+        <span class="w-2 h-2 rounded-full bg-green-300 pulse-status"></span>
+        <span>ABERTO AGORA</span>
+      </div>
+
+      <div class="text-xs text-red-100 space-y-1">
+        <p>📍 Rua São José dos Cordeiros, 418 - Vila Císper</p>
+        <p>📞 (11) 5197-7430 | 🛵 Entrega rápida & Retirada</p>
+      </div>
+    </div>
   </header>
 
-  <div class="container">
-    <div class="categories">
-      <button class="category-btn active">🔥 Promoções do Dia</button>
-      <button class="category-btn">🍕 Salgadas</button>
-      <button class="category-btn">🍫 Doces</button>
-      <button class="category-btn">🥤 Bebidas</button>
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="max-w-md mx-auto p-4">
+
+    <!-- BARRA DE BUSCA -->
+    <div class="mb-4">
+      <input type="text" id="searchInput" onkeyup="filterItems()" placeholder="🔍 O que você quer pedir hoje? (Ex: Mussarela, Água...)" 
+             class="w-full p-3 text-sm rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 bg-white">
     </div>
 
-    <!-- ITEM EM PROMOÇÃO -->
-    <div class="card">
-      <span class="promo-badge">PROMOÇÃO DO DIA</span>
-      <h3>05. Portuguesa Especial</h3>
-      <p>Mussarela, presunto, ovos, cebola, ervilha, azeitonas pretas e cobertura de catupiry.</p>
-      <div class="price-container">
-        <span class="price-old">R$ 60,00</span>
-        <span class="price-current">R$ 45,00</span>
-      </div>
-      <button class="btn-add" onclick="alert('Item promocional adicionado ao pedido!')">+ Adicionar no Pedido</button>
+    <!-- CATEGORIAS -->
+    <div class="flex gap-2 overflow-x-auto pb-2 mb-4 no-scrollbar">
+      <button onclick="filterCategory('all')" class="cat-btn bg-red-600 text-white px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">Todas</button>
+      <button onclick="filterCategory('promocoes')" class="cat-btn bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">🔥 Promoções</button>
+      <button onclick="filterCategory('salgadas')" class="cat-btn bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">🍕 Salgadas</button>
+      <button onclick="filterCategory('doces')" class="cat-btn bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">🍫 Doces</button>
+      <button onclick="filterCategory('calzones')" class="cat-btn bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">🥟 Calzones</button>
+      <button onclick="filterCategory('bebidas')" class="cat-btn bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">🥤 Bebidas</button>
     </div>
 
-    <!-- OUTROS ITENS DO CARDÁPIO -->
-    <div class="card">
-      <h3>01. À Moda da Casa</h3>
-      <p>Mussarela, palmito, calabresa e bacon crocante.</p>
-      <div class="price-container">
-        <span class="price-current">R$ 55,00</span>
-      </div>
-      <button class="btn-add" onclick="alert('Item adicionado!')">+ Adicionar no Pedido</button>
-    </div>
+    <!-- LISTA DE PRODUTOS -->
+    <div id="productList" class="space-y-3">
 
-    <div class="card">
-      <h3>42. Mussarela</h3>
-      <p>Mussarela especial, molho de tomate fresco, orégano e azeitonas.</p>
-      <div class="price-container">
-        <span class="price-current">R$ 42,00</span>
+      <!-- ITEM EM PROMOÇÃO -->
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="promocoes salgadas" data-name="portuguesa especial">
+        <div class="pr-2">
+          <span class="inline-block bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-0.5 rounded-md mb-1">Promoção</span>
+          <h3 class="font-bold text-gray-800 text-sm">05. Portuguesa Especial</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Mussarela, presunto, ovos, cebola, ervilha, azeitonas e catupiry.</p>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-gray-400 line-through">R$ 60,00</span>
+            <span class="text-xs font-extrabold text-green-700">G: R$ 45,00 | B: R$ 32,00</span>
+          </div>
+        </div>
+        <button onclick="addToCart('05. Portuguesa Especial', 'G: R$ 45,00 / B: R$ 32,00')" class="bg-red-50 text-red-600 hover:bg-red-100 font-bold text-xs px-3 py-2 rounded-lg border border-red-200 whitespace-nowrap">
+          + Adicionar
+        </button>
       </div>
-      <button class="btn-add" onclick="alert('Item adicionado!')">+ Adicionar no Pedido</button>
+
+      <!-- ITEM 1 -->
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="salgadas" data-name="a moda da casa">
+        <div class="pr-2">
+          <span class="inline-block bg-red-50 text-red-600 text-[10px] font-bold px-2 py-0.5 rounded-md mb-1">Destaque</span>
+          <h3 class="font-bold text-gray-800 text-sm">01. À Moda da Casa</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Mussarela, palmito, calabresa e bacon.</p>
+          <p class="text-xs font-extrabold text-gray-800">G: R$ 30,00 | B: R$ 20,00</p>
+        </div>
+        <button onclick="addToCart('01. À Moda da Casa', 'G: R$ 30,00 / B: R$ 20,00')" class="bg-red-50 text-red-600 hover:bg-red-100 font-bold text-xs px-3 py-2 rounded-lg border border-red-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
+      <!-- ITEM 2 -->
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="salgadas" data-name="brocolis">
+        <div class="pr-2">
+          <h3 class="font-bold text-gray-800 text-sm">17. Brócolis</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Brócolis coberto c/ mussarela ou catupiry e bacon.</p>
+          <p class="text-xs font-extrabold text-gray-800">G: R$ 23,00 | B: R$ 16,00</p>
+        </div>
+        <button onclick="addToCart('17. Brócolis', 'G: R$ 23,00 / B: R$ 16,00')" class="bg-red-50 text-red-600 hover:bg-red-100 font-bold text-xs px-3 py-2 rounded-lg border border-red-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
+      <!-- ITEM 3 -->
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="salgadas" data-name="mussarela">
+        <div class="pr-2">
+          <h3 class="font-bold text-gray-800 text-sm">42. Mussarela</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Mussarela, molho de tomate, orégano e azeitona.</p>
+          <p class="text-xs font-extrabold text-gray-800">G: R$ 23,00 | B: R$ 16,00</p>
+        </div>
+        <button onclick="addToCart('42. Mussarela', 'G: R$ 23,00 / B: R$ 16,00')" class="bg-red-50 text-red-600 hover:bg-red-100 font-bold text-xs px-3 py-2 rounded-lg border border-red-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
+      <!-- ITEM 4 (DOCE) -->
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="doces" data-name="chocolate">
+        <div class="pr-2">
+          <span class="inline-block bg-yellow-50 text-yellow-700 text-[10px] font-bold px-2 py-0.5 rounded-md mb-1">Sobremesa</span>
+          <h3 class="font-bold text-gray-800 text-sm">68. Chocolate</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Creme de leite, chocolate, leite condensado e cereja.</p>
+          <p class="text-xs font-extrabold text-gray-800">G: R$ 28,00 | B: R$ 20,00</p>
+        </div>
+        <button onclick="addToCart('68. Chocolate', 'G: R$ 28,00 / B: R$ 20,00')" class="bg-red-50 text-red-600 hover:bg-red-100 font-bold text-xs px-3 py-2 rounded-lg border border-red-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
+      <!-- ITEM 5 (BEBIDA) -->
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="bebidas" data-name="agua mineral">
+        <div class="pr-2">
+          <h3 class="font-bold text-gray-800 text-sm">Água Mineral 500ml</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Sem gás / Com gás</p>
+          <p class="text-xs font-extrabold text-gray-800">R$ 5,00</p>
+        </div>
+        <button onclick="addToCart('Água Mineral 500ml', 'R$ 5,00')" class="bg-red-50 text-red-600 hover:bg-red-100 font-bold text-xs px-3 py-2 rounded-lg border border-red-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
     </div>
-  </div>
+  </main>
+
+  <!-- SCRIPT DE FILTROS E BUSCA -->
+  <script>
+    function filterCategory(category) {
+      const items = document.querySelectorAll('.menu-item');
+      const buttons = document.querySelectorAll('.cat-btn');
+
+      // Atualiza estilo dos botões
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-red-600', 'text-white');
+        btn.classList.add('bg-white', 'text-gray-700');
+      });
+      event.currentTarget.classList.remove('bg-white', 'text-gray-700');
+      event.currentTarget.classList.add('bg-red-600', 'text-white');
+
+      // Filtra os itens
+      items.forEach(item => {
+        const itemCategories = item.getAttribute('data-category');
+        if (category === 'all' || itemCategories.includes(category)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function filterItems() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const items = document.querySelectorAll('.menu-item');
+
+      items.forEach(item => {
+        const name = item.getAttribute('data-name');
+        if (name.includes(input)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function addToCart(nome, preco) {
+      const mensagem = encodeURIComponent(`Olá! Gostaria de pedir: ${nome} (${preco})`);
+      window.open(`https://wa.me/5511951977430?text=${mensagem}`, '_blank');
+    }
+  </script>
 
 </body>
 </html>
