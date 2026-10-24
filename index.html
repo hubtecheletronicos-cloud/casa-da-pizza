@@ -17,32 +17,30 @@
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-800 pb-24">
 
-  <!-- CABEÇALHO -->
-  <header class="bg-red-700 text-white p-4 shadow-md text-center relative">
+  <!-- CABEÇALHO COMPACTO -->
+  <header class="bg-red-700 text-white px-4 py-3 shadow-md text-center">
     <div class="max-w-md mx-auto">
-      <div class="flex items-center justify-center gap-2 mb-1">
-        <span class="text-2xl">🍕</span>
-        <h1 class="text-2xl font-bold">Casa da Pizza</h1>
-      </div>
-      <p class="text-xs text-red-100 mb-2">Tradição e Sabor na sua mesa</p>
-      
-      <!-- BADGE ABERTO AGORA COM BRILHO/PULSO -->
-      <div class="inline-flex items-center gap-1.5 bg-green-700 text-white text-xs px-2.5 py-1 rounded-full font-semibold shadow-inner mb-2">
-        <span class="w-2 h-2 rounded-full bg-green-300 pulse-status"></span>
-        <span>ABERTO AGORA</span>
-      </div>
-
-      <!-- SELO DE AVALIAÇÕES DO GOOGLE -->
-      <div class="mb-3">
-        <span class="inline-flex items-center justify-center gap-1 bg-red-800/60 text-yellow-300 text-xs px-3 py-1 rounded-full font-bold border border-red-600/50">
-          ⭐ 4.8 <span class="text-white font-normal text-[11px]">(+200 avaliações no Google)</span>
+      <!-- TÍTULO + STATUS ABERTO NA MESMA LINHA -->
+      <div class="flex items-center justify-center gap-2">
+        <span class="text-xl">🍕</span>
+        <h1 class="text-xl font-bold leading-tight">Casa da Pizza</h1>
+        <span class="inline-flex items-center gap-1 bg-green-700 text-white text-[10px] px-2 py-0.5 rounded-full font-semibold shadow-inner">
+          <span class="w-1.5 h-1.5 rounded-full bg-green-300 pulse-status"></span>
+          ABERTO
         </span>
       </div>
 
-      <div class="text-xs text-red-100 space-y-1">
-        <p>📍 Rua São José dos Cordeiros, 418 - Vila Císper</p>
-        <p>📞 (11) 5197-7430 | 🛵 Entrega rápida & Retirada</p>
+      <!-- SLOGAN + NOTA GOOGLE EM LINHA ÚNICA -->
+      <div class="flex items-center justify-center gap-2 text-xs text-red-100 mt-1">
+        <span>Tradição e Sabor</span>
+        <span>•</span>
+        <span class="text-yellow-300 font-bold flex items-center gap-0.5">⭐ 4.8 <span class="text-red-100 font-normal text-[10px]">(+200)</span></span>
       </div>
+
+      <!-- CONTATO E ENDEREÇO ENXUGADOS -->
+      <p class="text-[11px] text-red-100/90 mt-1 leading-tight">
+        📍 Vila Císper | 📞 (11) 5197-7430 | 🛵 Entrega & Retirada
+      </p>
     </div>
   </header>
 
